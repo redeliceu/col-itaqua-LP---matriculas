@@ -12,7 +12,9 @@ import Child3Image from './assets/images/child3.jpg'
 import StudentImage from './assets/images/student.jpg'
 import Student2Image from './assets/images/student2.jpg'
 import GardenImage from './assets/images/horta.jpg'
-import BalleteImage from './assets/images/bale.jpg'
+import BalleteImage from './assets/images/bale.png'
+import VilaKidsImage from './assets/images/vila-kids.png'
+import QuadraImage from './assets/images/quadra.png'
 
 
 const features = [
@@ -44,9 +46,9 @@ const features = [
 
 const slides = [
   { title: 'Área verde', image: SchoolImage2 },
-  { title: 'Quadra', image: JudoImage },
+  { title: 'Quadra', image: QuadraImage },
   { title: 'Horta', image: GardenImage },
-  { title: 'Vila Kids', image: StudentImage },
+  { title: 'Vila Kids', image: VilaKidsImage },
   { title: 'Balé', image: BalleteImage },
   { title: 'Judô', image: JudoImage },
   { title: 'Libras', image: ClassImage },
@@ -126,6 +128,7 @@ function App() {
       placeholder: 'Como podemos te chamar...',
       type: 'text',
       value: formData.responsibleName,
+      maxLength: undefined,
     },
     {
       key: 'whatsapp',
@@ -141,6 +144,7 @@ function App() {
       placeholder: 'Ex.: 1º ano do ensino fundamental',
       type: 'text',
       value: formData.interestSeries,
+      maxLength: undefined,
     },
   ] as const
 
@@ -185,7 +189,7 @@ function App() {
     }
 
     if (!apiUrl) {
-      setSubmitMessage('Configuração da API ausente. Defina VITE_API_URL e VITE_API_TOKEN em um ambiente seguro do servidor/proxy.')
+      setSubmitMessage('Configuração da API ausente. Defina a URL da API em um ambiente seguro do servidor/proxy.')
       return
     }
 
@@ -203,7 +207,7 @@ function App() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Accept: 'application/json',
+          Accept: 'application/json'
         },
         body: JSON.stringify(payload),
       })
