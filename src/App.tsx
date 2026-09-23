@@ -188,15 +188,15 @@ function App() {
       return
     }
 
-    if (!apiUrl) {
+    /* if (!apiUrl) {
       setSubmitMessage('Configuração da API ausente. Defina a URL da API em um ambiente seguro do servidor/proxy.')
       return
-    }
+    } */
 
     const payload = {
       responsible_name: formData.responsibleName.trim(),
-      whatsapp: normalizeWhatsapp(formData.whatsapp),
-      interest_series: formData.interestSeries.trim(),
+      mobile_phone: normalizeWhatsapp(formData.whatsapp),
+      interest: formData.interestSeries.trim(),
     }
 
     setIsSubmitting(true)
@@ -207,16 +207,29 @@ function App() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Accept: 'application/json'
+          Accept: 'application/json',
         },
         body: JSON.stringify(payload),
       })
 
+      const result = await response.json().catch(() => null) as {
+        success?: boolean
+        message?: string
+        errors?: Record<string, string[]>
+      } | null
+
       if (!response.ok) {
-        throw new Error(`Erro na API: ${response.status}`)
+        const fieldErrors = result?.errors
+        const errorMessage = fieldErrors
+          ? Object.values(fieldErrors)
+              .flat()
+              .join(' ')
+          : result?.message || 'Não foi possível enviar os dados neste momento.'
+
+        throw new Error(errorMessage)
       }
 
-      setSubmitMessage('Dados enviados com sucesso!')
+      setSubmitMessage(result?.message || 'Dados enviados com sucesso!')
       setCurrentStep(0)
       setFormData({
         responsibleName: '',
@@ -225,7 +238,7 @@ function App() {
       })
     } catch (error) {
       console.error('Erro ao enviar lead:', error)
-      setSubmitMessage('Não foi possível enviar os dados neste momento. Tente novamente.')
+      setSubmitMessage(error instanceof Error ? error.message : 'Não foi possível enviar os dados neste momento. Tente novamente.')
     } finally {
       setIsSubmitting(false)
     }
