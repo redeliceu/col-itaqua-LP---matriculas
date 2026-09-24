@@ -6,10 +6,10 @@ import { GrSchedule } from "react-icons/gr";
 import Footer from './Footer';
 
 export default function SuccessScreen() {
-  const goToHome = () => {
+ /*  const goToHome = () => {
     window.history.pushState({}, '', '/')
     window.dispatchEvent(new PopStateEvent('popstate'))
-  }
+  } */
 
   return (
     <main className="success-screen">
