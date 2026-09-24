@@ -91,6 +91,47 @@ const formatWhatsApp = (value: string) => {
 
 const normalizeWhatsapp = (value: string) => value.replace(/\D/g, '').slice(0, 11)
 
+const getUtmData = () => {
+  if (typeof window === 'undefined') {
+    return {}
+  }
+
+  const params = new URLSearchParams(window.location.search)
+  const fields = [
+    'utm_source',
+    'utm_medium',
+    'utm_campaign',
+    'utm_term',
+    'utm_content',
+    'utm_id',
+    'utm_name',
+    'utm_placement',
+    'gclid',
+    'referrer',
+    'landing_page',
+  ] as const
+
+  const utmData: Record<string, string> = {}
+
+  for (const field of fields) {
+    const value = params.get(field)
+
+    if (value && value.trim()) {
+      utmData[field] = value.trim()
+    }
+  }
+
+  if (!utmData.referrer && document.referrer) {
+    utmData.referrer = document.referrer
+  }
+
+  if (!utmData.landing_page) {
+    utmData.landing_page = window.location.pathname
+  }
+
+  return utmData
+}
+
 function App() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [openFaq, setOpenFaq] = useState<number | null>(0)
@@ -188,15 +229,16 @@ function App() {
       return
     }
 
-    /* if (!apiUrl) {
+    if (!apiUrl) {
       setSubmitMessage('Configuração da API ausente. Defina a URL da API em um ambiente seguro do servidor/proxy.')
       return
-    } */
+    }
 
     const payload = {
       responsible_name: formData.responsibleName.trim(),
       mobile_phone: normalizeWhatsapp(formData.whatsapp),
       interest: formData.interestSeries.trim(),
+      ...getUtmData(),
     }
 
     setIsSubmitting(true)
@@ -215,6 +257,8 @@ function App() {
       const result = await response.json().catch(() => null) as {
         success?: boolean
         message?: string
+        lead?: unknown
+        data?: unknown
         errors?: Record<string, string[]>
       } | null
 
@@ -229,7 +273,11 @@ function App() {
         throw new Error(errorMessage)
       }
 
-      setSubmitMessage(result?.message || 'Dados enviados com sucesso!')
+      const successMessage = typeof result?.message === 'string' && result.message.trim()
+        ? result.message
+        : 'Dados enviados com sucesso!'
+
+      setSubmitMessage(successMessage)
       setCurrentStep(0)
       setFormData({
         responsibleName: '',
