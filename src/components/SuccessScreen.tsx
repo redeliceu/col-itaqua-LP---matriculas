@@ -40,7 +40,7 @@ export default function SuccessScreen() {
               Se preferir, você também pode falar com a nossa equipe agora mesmo.
             </p>
 
-            <div className="success-actions">
+            {/* <div className="success-actions">
               <a
                 href="https://wa.me/5511972689163?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20as%20matr%C3%ADculas."
                 target="_blank"
@@ -56,7 +56,7 @@ export default function SuccessScreen() {
                 Voltar para o site
                 <span className="success-arrow">→</span>
               </button>
-            </div>
+            </div> */}
           </div>
 
           {/* <div className="success-visual" aria-label="Alunos do colégio">
