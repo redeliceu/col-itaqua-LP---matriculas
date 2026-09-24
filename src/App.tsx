@@ -294,7 +294,7 @@ function App() {
 
   return (
     <>
-      <section className="pt-5 xl:pt-0 min-h-screen xl:flex items-center justify-center relative" id="agendar-visita">
+      <section className="pt-5 xl:pt-0 min-h-screen xl:flex items-center justify-center relative overflow-hidden" id="agendar-visita">
         <div className="min-[1280px]:absolute xl:block left-10 z-20 overflow-hidden px-6 sm:px-10 lg:px-16">
         
           <div className="relative mx-auto max-w-7xl">

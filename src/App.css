@@ -6,6 +6,15 @@ section {
   min-height: 100svh;
 }
 
+#agendar-visita {
+  overflow: hidden;
+}
+
+#agendar-visita > span:last-child,
+#agendar-visita > div:last-child {
+  overflow: hidden;
+}
+
 .diff-section {
   min-height: 760px;
 }
