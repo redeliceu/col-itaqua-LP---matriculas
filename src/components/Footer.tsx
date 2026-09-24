@@ -1,9 +1,11 @@
+import Logo from './../assets/logo.png'
+
 function Footer() {
   return (
     <footer className="site-footer">
       <div className="footer-inner">
         <div className="brand-wordmark">
-          <img src='./../src/assets/logo.png' alt="Colégio Itaqua" />
+          <img src={Logo} alt="Colégio Itaqua" />
         </div>
 
         <nav className="footer-nav" aria-label="Navegação do rodapé">

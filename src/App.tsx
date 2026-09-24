@@ -19,26 +19,26 @@ import QuadraImage from './assets/images/quadra.png'
 
 const features = [
   {
-    title: '34 anos de\nhistória',
+    title: '34 anos de história',
     description: 'Tradição e experiência em Itaquaquecetuba.',
     image:
       SchoolImage,
   },
   {
-    title: '10 mil m² de\nárea verde',
+    title: '10 mil m² de área verde',
     description: 'Quadra, horta e espaço aberto: aula que sai da sala de aula.',
     image:
       SchoolImage2,
   },
   {
-    title: 'Formação\ncompleta',
-    description: 'Balé, judô, libras e inglês,\nsem precisar pagar escolinha à parte. ',
+    title: 'Formação completa',
+    description: 'Balé, judô, libras e inglês, sem precisar pagar escolinha à parte. ',
     image:
       JudoImage,
   },
   {
-    title: 'Acompanhamento\nde perto',
-    description: 'Equipe que conhece seu\nfilho pelo nome.',
+    title: 'Acompanhamento de perto',
+    description: 'Equipe que conhece seu filho pelo nome.',
     image:
       ClassImage,
   },
@@ -48,7 +48,7 @@ const slides = [
   { title: 'Área verde', image: SchoolImage2 },
   { title: 'Quadra', image: QuadraImage },
   { title: 'Horta', image: GardenImage },
-  { title: 'Vila Kids', image: VilaKidsImage },
+  { title: 'Villa Kids', image: VilaKidsImage },
   { title: 'Balé', image: BalleteImage },
   { title: 'Judô', image: JudoImage },
   { title: 'Libras', image: ClassImage },
@@ -96,7 +96,9 @@ const getUtmData = () => {
     return {}
   }
 
-  const params = new URLSearchParams(window.location.search)
+  const currentUrl = new URL(window.location.href)
+  const currentPage = currentUrl.origin
+  const params = new URLSearchParams(currentUrl.search)
   const fields = [
     'utm_source',
     'utm_medium',
@@ -107,8 +109,6 @@ const getUtmData = () => {
     'utm_name',
     'utm_placement',
     'gclid',
-    'referrer',
-    'landing_page',
   ] as const
 
   const utmData: Record<string, string> = {}
@@ -121,13 +121,16 @@ const getUtmData = () => {
     }
   }
 
-  if (!utmData.referrer && document.referrer) {
-    utmData.referrer = document.referrer
+  if (document.referrer) {
+    try {
+      const referrerUrl = new URL(document.referrer)
+      utmData.referrer = referrerUrl.origin
+    } catch {
+      utmData.referrer = document.referrer
+    }
   }
 
-  if (!utmData.landing_page) {
-    utmData.landing_page = window.location.pathname
-  }
+  utmData.landing_page = currentPage
 
   return utmData
 }
@@ -294,13 +297,13 @@ function App() {
 
   return (
     <>
-      <section className="pt-5 xl:pt-0 min-h-screen xl:flex items-center justify-center relative overflow-hidden" id="agendar-visita">
+      <section className="px-2 pt-10 xl:pt-0 xl:flex items-center justify-center relative overflow-hidden" id="agendar-visita">
         <div className="min-[1280px]:absolute xl:block left-10 z-20 overflow-hidden px-6 sm:px-10 lg:px-16">
         
           <div className="relative mx-auto max-w-7xl">
             
             {/* Topo */}
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3 ">
               
               {/* Logo */}
               <div className="mr-3 flex items-center gap-2 text-white">
@@ -334,7 +337,7 @@ function App() {
             <div className="mt-12 items-center grid gap-14">
               
               {/* Textos */}
-              <div className="max-w-2xl">
+              <div className="max-w-2xl text-center md:text-left">
                 <h1 className="text-5xl font-medium leading-[0.98] tracking-[-0.04em] sm:text-6xl lg:text-[72px]">
                   <span className="text-[#FFE500]">
                     A escola certa
@@ -363,7 +366,7 @@ function App() {
               <div className="relative">
                 
                 {/* Selo */}
-                <div className="absolute -right-2 -top-10 z-10 flex h-28 w-28 rotate-[-8deg] items-center justify-center rounded-full bg-[#193D82] text-center shadow-xl ring-4 ring-white/10 sm:-right-4 sm:h-32 sm:w-32">
+                <div className="absolute -right-5 -top-20 z-10 sm:-top-10 sm:-right-2 flex h-28 w-28 rotate-[-8deg] items-center justify-center rounded-full bg-[#193D82] text-center shadow-xl ring-4 ring-white/10 sm:-right-4 sm:h-32 sm:w-32">
                   <div>
                     <span className="block text-xl font-black leading-none text-white">
                       VAGAS
@@ -519,7 +522,7 @@ function App() {
 
       {/* faixa */}
       <div className="bg-[#0B1E3F] py-5">
-        <div className="mx-auto flex max-w-5xl text-xs font-medium tracking-[0.25em] text-white">
+        <div className="mx-auto flex max-w-5xl text-[0.65rem] sm:text-xs font-medium tracking-[0.25em] text-white">
           <div className="flex flex-1 justify-center py-5">
             INFANTIL
           </div>
