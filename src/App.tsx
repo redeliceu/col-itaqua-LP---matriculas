@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
-import './App.css'
+import './styles/landing.css'
+import './styles/success.css'
 import Footer from './components/Footer'
+import SuccessScreen from './components/SuccessScreen'
 import ChildImage from './assets/images/child.png'
 import Logo from './assets/logo.png'
 import SchoolImage from './assets/images/school.jpg'
@@ -15,6 +17,7 @@ import GardenImage from './assets/images/horta.jpg'
 import BalleteImage from './assets/images/bale.png'
 import VilaKidsImage from './assets/images/vila-kids.png'
 import QuadraImage from './assets/images/quadra.png'
+import { IoLogoWhatsapp } from "react-icons/io"
 
 
 const features = [
@@ -140,6 +143,7 @@ function App() {
   const [openFaq, setOpenFaq] = useState<number | null>(0)
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 768 : false)
   const [currentStep, setCurrentStep] = useState(0)
+  const [currentPath, setCurrentPath] = useState(() => window.location.pathname)
   const [formData, setFormData] = useState({
     responsibleName: '',
     whatsapp: '',
@@ -150,12 +154,21 @@ function App() {
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768)
+    const handleLocationChange = () => setCurrentPath(window.location.pathname)
 
     handleResize()
     window.addEventListener('resize', handleResize)
+    window.addEventListener('popstate', handleLocationChange)
 
-    return () => window.removeEventListener('resize', handleResize)
+    return () => {
+      window.removeEventListener('resize', handleResize)
+      window.removeEventListener('popstate', handleLocationChange)
+    }
   }, [])
+
+  if (currentPath === '/sucesso') {
+    return <SuccessScreen />
+  }
 
   const visibleSlides = isMobile
     ? [slides[activeIndex]]
@@ -265,7 +278,7 @@ function App() {
         errors?: Record<string, string[]>
       } | null
 
-      if (!response.ok) {
+      if (!response.ok || result?.success === false) {
         const fieldErrors = result?.errors
         const errorMessage = fieldErrors
           ? Object.values(fieldErrors)
@@ -287,6 +300,8 @@ function App() {
         whatsapp: '',
         interestSeries: '',
       })
+      window.history.pushState({}, '', '/sucesso')
+      setCurrentPath('/sucesso')
     } catch (error) {
       console.error('Erro ao enviar lead:', error)
       setSubmitMessage(error instanceof Error ? error.message : 'Não foi possível enviar os dados neste momento. Tente novamente.')
@@ -297,7 +312,7 @@ function App() {
 
   return (
     <>
-      <section className="px-2 pt-10 xl:pt-0 xl:flex items-center justify-center relative overflow-hidden" id="agendar-visita">
+      <section className="px-2 pt-10 xl:pt-0 xl:flex items-center justify-center relative overflow-hidden">
         <div className="min-[1280px]:absolute xl:block left-10 z-20 overflow-hidden px-6 sm:px-10 lg:px-16">
         
           <div className="relative mx-auto max-w-7xl">
@@ -366,7 +381,7 @@ function App() {
               <div className="relative">
                 
                 {/* Selo */}
-                <div className="absolute -right-5 -top-20 z-10 sm:-top-10 sm:-right-2 flex h-28 w-28 rotate-[-8deg] items-center justify-center rounded-full bg-[#193D82] text-center shadow-xl ring-4 ring-white/10 sm:-right-4 sm:h-32 sm:w-32">
+                <div className="absolute -right-5 -top-20 z-10 sm:-top-10 sm:-right-2 flex h-28 w-28 rotate-[-8deg] items-center justify-center rounded-full bg-[#193D82] text-center shadow-xl ring-4 ring-white/10 sm:-right-4 sm:h-32 sm:w-32" id="agendar-visita">
                   <div>
                     <span className="block text-xl font-black leading-none text-white">
                       VAGAS
@@ -522,16 +537,16 @@ function App() {
 
       {/* faixa */}
       <div className="bg-[#0B1E3F] py-5">
-        <div className="mx-auto flex max-w-5xl text-[0.65rem] sm:text-xs font-medium tracking-[0.25em] text-white">
-          <div className="flex flex-1 justify-center py-5">
+        <div className="mx-auto flex justify-around max-w-screen text-[0.60rem] sm:text-xs font-medium tracking-[0.25em] text-white">
+          <div className="text-center py-5 sm:flex-1 ml-5 sm:ml-0">
             INFANTIL
           </div>
 
-          <div className="flex flex-1 justify-center border-l border-[#344565] py-5">
+          <div className="text-center border-x px-[7%] sm:px-none sm:flex-1 border-[#344565] py-5">
             FUND. I e II
           </div>
 
-          <div className="flex flex-1 justify-center border-l border-[#344565] py-5">
+          <div className="text-center border-[#344565] py-5 sm:flex-1 pr-5 md:pr-0">
             ENSINO MÉDIO
           </div>
         </div>
@@ -612,9 +627,9 @@ function App() {
               <span className="block">Ensino para preparar.</span>
             </h2>
 
-            <div className="mt-8 space-y-4 text-lg leading-relaxed text-white/90 sm:text-[22px]">
-              <div className="flex items-start gap-3">
-                <span className="mt-3 h-5 w-1 bg-[#FFE500]" />
+            <div className="mt-8 space-y-4 text-[17px] leading-relaxed text-white/90 sm:text-[22px]">
+              <div className="flex items-center gap-3">
+                <span className="h-5 w-1 bg-[#FFE500]" />
                 <p className="m-0">Crescer é muito mais do que passar de ano.</p>
               </div>
 
@@ -726,7 +741,7 @@ function App() {
         </div>
       </section>
 
-      <section className="location-section relative overflow-hidden bg-[#F4F4F2] px-4 pb-20 pt-8 sm:px-6 lg:px-8" id="localizacao">
+      <section className="location-section relative overflow-hidden bg-[#F4F4F2] px-4 pb-20 sm:px-6 lg:px-8" id="localizacao">
         <div className="location-scroll-indicator">
           <span>↓</span>
         </div>
@@ -738,7 +753,7 @@ function App() {
             </span>
           </div>
 
-          <h2 className="mt-8 text-4xl font-black leading-[0.95] tracking-[-0.05em] text-[#FFE500] sm:text-5xl lg:text-[40px]">
+          <h2 className="mt-8 text-2xl md:text-4xl font-black leading-[0.95] tracking-[-0.05em] text-[#FFE500] sm:text-5xl lg:text-[40px]">
             A escola certa <span className="text-[#102E6B]"> também precisa fazer sentido para sua família.</span>
           </h2>
 
@@ -791,7 +806,7 @@ function App() {
         <div className="faq-wrap">
           <div className="faq-left">
             <span className="faq-badge">FAQ</span>
-            <p className='text-5xl font-bold text-[#102E6B]'>Perguntas que toda mãe e pai faz</p>
+            <p className='text-3xl md:text-5xl font-bold text-[#102E6B]'>Perguntas que toda mãe e pai faz</p>
             <a href="#">
               <button type="button" className="faq-cta">
                 Agendar uma visita
@@ -823,6 +838,17 @@ function App() {
           </div>
         </div>
       </section>
+
+
+      {/* float wpp button */}
+      <a
+        href="https://wa.me/5511972689163?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20as%20matr%C3%ADculas."
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-3xl fixed bottom-5 right-5 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition hover:scale-105"
+      >
+        <IoLogoWhatsapp/>
+      </a>
 
       <Footer />
     </>
