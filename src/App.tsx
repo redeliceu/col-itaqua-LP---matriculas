@@ -83,6 +83,8 @@ const faqItems = [
 
 const apiUrl = import.meta.env.VITE_API_URL as string | undefined
 
+const webhookUrl = import.meta.env.VITE_WEBHOOK_URL
+
 const formatWhatsApp = (value: string) => {
   const digits = value.replace(/\D/g, '').slice(0, 11)
 
@@ -246,7 +248,6 @@ function App() {
     }
 
     if (!apiUrl) {
-      setSubmitMessage('Configuração da API ausente. Defina a URL da API em um ambiente seguro do servidor/proxy.')
       return
     }
 
@@ -269,6 +270,19 @@ function App() {
         },
         body: JSON.stringify(payload),
       })
+
+      await fetch(webhookUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.responsibleName.trim(),
+          phone: normalizeWhatsapp(formData.whatsapp),
+          tags: ['landing-page'],
+        }),
+      });
 
       const result = await response.json().catch(() => null) as {
         success?: boolean
