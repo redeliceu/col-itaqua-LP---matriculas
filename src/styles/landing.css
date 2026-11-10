@@ -6,6 +6,274 @@ section {
   min-height: 100svh;
 }
 
+/* ===== Hero (altura = viewport, escala fluida) =====
+   --u = 1px "de design". Todo o hero é medido em múltiplos de --u.
+   Limitado pela altura (100svh / 930 -> o conteúdo ~915u sempre cabe)
+   e pela largura útil da coluna (--col / 510 -> a barra do topo não quebra). */
+.hero {
+  --col: calc(100vw - 2rem);
+  --u: clamp(0.55px, min(calc(100vh / 930), calc(var(--col) / 510)), 1.15px);
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  height: auto;
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+@supports (height: 100svh) {
+  .hero {
+    --u: clamp(0.55px, min(calc(100svh / 930), calc(var(--col) / 510)), 1.15px);
+  }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  padding: calc(var(--u) * 48) 1rem;
+}
+
+.hero-topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--u) * 12);
+}
+
+.hero-logo {
+  margin-right: calc(var(--u) * 12);
+}
+
+.hero-logo img {
+  display: block;
+  height: calc(var(--u) * 72);
+  width: auto;
+}
+
+.hero-year {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--u) * 66);
+  height: calc(var(--u) * 72);
+  border-radius: calc(var(--u) * 12);
+  background: #FFE500;
+  color: #21458A;
+  text-align: center;
+  font-size: calc(var(--u) * 25);
+  font-weight: 900;
+  line-height: 0.9;
+}
+
+.hero-enroll {
+  display: flex;
+  align-items: center;
+  height: calc(var(--u) * 72);
+  padding: 0 calc(var(--u) * 20);
+  border-radius: calc(var(--u) * 12);
+  background: #279B48;
+}
+
+.hero-enroll-top {
+  display: block;
+  color: #21458A;
+  font-size: calc(var(--u) * 19);
+  font-weight: 700;
+  letter-spacing: 0.025em;
+}
+
+.hero-enroll-bottom {
+  display: block;
+  color: #fff;
+  font-size: calc(var(--u) * 28);
+  font-weight: 800;
+  line-height: calc(var(--u) * 28);
+}
+
+.hero-body {
+  display: grid;
+  align-items: center;
+  gap: calc(var(--u) * 56);
+  margin-top: calc(var(--u) * 48);
+}
+
+.hero-title {
+  font-size: min(calc(var(--u) * 72), calc(var(--col) / 9));
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+}
+
+.hero-form-wrap {
+  position: relative;
+  width: 100%;
+  max-width: calc(var(--u) * 600);
+  margin-inline: auto;
+}
+
+.hero-seal {
+  position: absolute;
+  top: calc(var(--u) * -44);
+  right: calc(var(--u) * -12);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--u) * 120);
+  height: calc(var(--u) * 120);
+  border-radius: 9999px;
+  background: #193D82;
+  text-align: center;
+  transform: rotate(-8deg);
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1), 0 0 0 4px rgb(255 255 255 / 0.1);
+}
+
+.hero-seal-top {
+  display: block;
+  color: #fff;
+  font-size: calc(var(--u) * 20);
+  font-weight: 900;
+  line-height: 1;
+}
+
+.hero-seal-bottom {
+  display: block;
+  color: #FFE500;
+  font-size: calc(var(--u) * 14);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.hero-card {
+  border-radius: calc(var(--u) * 30);
+  background: #fff;
+  padding: calc(var(--u) * 32);
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+}
+
+.hero-card-title {
+  color: #21458A;
+  font-size: calc(var(--u) * 28);
+  font-weight: 300;
+  line-height: 1.25;
+}
+
+.hero-form {
+  margin-top: calc(var(--u) * 24);
+}
+
+.hero-fields {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 14);
+}
+
+.hero-label {
+  display: block;
+  margin-bottom: calc(var(--u) * 6);
+  color: #182A4A;
+  font-size: max(12px, calc(var(--u) * 14));
+  font-weight: 700;
+}
+
+.hero-input {
+  width: 100%;
+  height: calc(var(--u) * 56);
+  padding: 0 calc(var(--u) * 20);
+  border: 1px solid #D9E2F2;
+  border-radius: calc(var(--u) * 16);
+  background: #F1F5FC;
+  color: #182A4A;
+  /* 16px mínimo evita o zoom automático do iOS ao focar */
+  font-size: max(16px, calc(var(--u) * 16));
+  outline: none;
+  transition: border-color 150ms, box-shadow 150ms;
+}
+
+.hero-input::placeholder {
+  color: #9EADCA;
+}
+
+.hero-input:focus {
+  border-color: #21458A;
+  box-shadow: 0 0 0 2px rgb(33 69 138 / 0.1);
+}
+
+.hero-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--u) * 16);
+  width: 100%;
+  height: calc(var(--u) * 56);
+  margin-top: calc(var(--u) * 20);
+  border-radius: 9999px;
+  background: #FFE500;
+  color: #162F63;
+  font-size: max(15px, calc(var(--u) * 18));
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(255, 229, 0, 0.18);
+  transition: transform 150ms, background-color 150ms, opacity 150ms;
+}
+
+.hero-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: #ffea33;
+}
+
+.hero-submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.hero-submit-arrow {
+  font-size: calc(var(--u) * 24);
+  font-weight: 300;
+}
+
+.hero-message {
+  margin-top: calc(var(--u) * 12);
+  color: #21458A;
+  font-size: max(12px, calc(var(--u) * 14));
+  font-weight: 500;
+}
+
+@media (max-width: 639px) {
+  .hero-seal {
+    top: calc(var(--u) * -62);
+    right: calc(var(--u) * -6);
+    width: calc(var(--u) * 96);
+    height: calc(var(--u) * 96);
+  }
+  .hero-seal-top { font-size: calc(var(--u) * 17); }
+  .hero-seal-bottom { font-size: calc(var(--u) * 12); }
+}
+
+@media (min-width: 640px) {
+  .hero { --col: calc(100vw - 5rem); }
+  .hero-content { padding-inline: 2.5rem; }
+}
+
+@media (min-width: 768px) {
+  .hero-topbar { justify-content: flex-start; }
+}
+
+@media (min-width: 1024px) {
+  .hero { --col: calc(50vw - 5rem); }
+  .hero-content { width: 50%; }
+  .hero-form-wrap { margin-inline: 0; }
+}
+
+@media (min-width: 1280px) {
+  .hero { --col: calc(50vw - 8rem); }
+  .hero-content { padding-inline: 4rem; }
+}
+
 .hero-side-image {
   display: block;
   overflow: hidden;

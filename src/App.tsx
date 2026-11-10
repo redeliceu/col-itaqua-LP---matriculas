@@ -214,21 +214,20 @@ function App() {
 
   return (
     <>
-      <section className="relative items-center justify-center overflow-hidden px-2 pt-10 lg:flex lg:min-h-screen lg:justify-start lg:pt-0">
-        <div className="relative z-20 w-full overflow-hidden px-6 sm:px-10 lg:w-1/2 lg:px-10 xl:px-16">
-        
-          <div className="relative mx-auto max-w-7xl">
-            
+      <section className="hero">
+        <div className="hero-content">
+          <div className="relative mx-auto w-full max-w-7xl">
+
             {/* Topo */}
-            <div className="flex flex-wrap items-center gap-3 ">
-              
+            <div className="hero-topbar">
+
               {/* Logo */}
-              <div className="mr-3 flex items-center gap-2 text-white">
+              <div className="hero-logo">
                 <img src={Logo} alt="" />
               </div>
 
               {/* Ano */}
-              <div className="flex h-[72px] w-[66px] items-center justify-center rounded-xl bg-[#FFE500] text-center text-[25px] font-black leading-[0.9] text-[#21458A]">
+              <div className="hero-year">
                 <span>
                   20
                   <br />
@@ -237,25 +236,20 @@ function App() {
               </div>
 
               {/* Matrículas abertas */}
-              <div className="flex h-[72px] items-center rounded-xl bg-[#279B48] px-5">
+              <div className="hero-enroll">
                 <div className="leading-none">
-                  <span className="block text-[19px] font-bold tracking-wide text-[#21458A]">
-                    MATRÍCULAS
-                  </span>
-
-                  <span className="block text-[28px] font-extrabold leading-7 text-white">
-                    ABERTAS
-                  </span>
+                  <span className="hero-enroll-top">MATRÍCULAS</span>
+                  <span className="hero-enroll-bottom">ABERTAS</span>
                 </div>
               </div>
             </div>
 
             {/* Conteúdo */}
-            <div className="mt-12 items-center grid gap-14">
-              
+            <div className="hero-body">
+
               {/* Textos */}
               <div className="max-w-2xl text-center md:text-left">
-                <h1 className="text-5xl font-medium leading-[0.98] tracking-[-0.04em] sm:text-6xl lg:text-[72px]">
+                <h1 className="hero-title">
                   <span className="text-[#FFE500]">
                     A escola certa
                   </span>
@@ -269,38 +263,30 @@ function App() {
               </div>
 
               {/* Formulário */}
-              <div className="relative lg:max-w-2xl">
-                
-                {/* Selo */}
-                <div className="absolute -right-5 -top-20 z-10 sm:-top-10 sm:-right-2 flex h-28 w-28 rotate-[-8deg] items-center justify-center rounded-full bg-[#193D82] text-center shadow-xl ring-4 ring-white/10 sm:-right-4 sm:h-32 sm:w-32" id="agendar-visita">
-                  <div>
-                    <span className="block text-xl font-black leading-none text-white">
-                      VAGAS
-                    </span>
+              <div className="hero-form-wrap">
 
-                    <span className="block text-sm font-bold leading-none text-[#FFE500]">
-                      LIMITADAS
-                    </span>
+                {/* Selo */}
+                <div className="hero-seal" id="agendar-visita">
+                  <div>
+                    <span className="hero-seal-top">VAGAS</span>
+                    <span className="hero-seal-bottom">LIMITADAS</span>
                   </div>
                 </div>
 
-                <div className="rounded-[30px] bg-white p-7 shadow-2xl sm:p-9">
-                  
-                  <h2 className="text-2xl font-light leading-tight text-[#21458A] sm:text-[28px]">
+                <div className="hero-card">
+
+                  <h2 className="hero-card-title">
                     Preencha e{" "}
                     <strong className="font-bold">
                       agende uma visita
                     </strong>
                   </h2>
 
-                  <form className="mt-7" onSubmit={handleSubmit}>
-                    <div className="space-y-4">
+                  <form className="hero-form" onSubmit={handleSubmit}>
+                    <div className="hero-fields">
                       {fields.map((field) => (
                         <div key={field.key}>
-                          <label
-                            htmlFor={field.key}
-                            className="mb-2 block text-sm font-bold text-[#182A4A]"
-                          >
+                          <label htmlFor={field.key} className="hero-label">
                             {field.label}
                           </label>
 
@@ -312,63 +298,23 @@ function App() {
                             placeholder={field.placeholder}
                             required
                             onChange={(event) => handleInputChange(field.key, event.target.value)}
-                            className="
-                              h-[62px]
-                              w-full
-                              rounded-2xl
-                              border
-                              border-[#D9E2F2]
-                              bg-[#F1F5FC]
-                              px-5
-                              text-base
-                              text-[#182A4A]
-                              outline-none
-                              transition
-                              placeholder:text-[#9EADCA]
-                              focus:border-[#21458A]
-                              focus:ring-2
-                              focus:ring-[#21458A]/10
-                            "
+                            className="hero-input"
                           />
                         </div>
                       ))}
                     </div>
 
-                    <div className="mt-5 flex gap-3">
-                      <button
-                        type="submit"
-                        disabled={isSubmitting || !isFormValid()}
-                        className="
-                          flex
-                          h-[62px]
-                          flex-1
-                          items-center
-                          justify-center
-                          gap-4
-                          rounded-full
-                          bg-[#FFE500]
-                          text-lg
-                          font-bold
-                          text-[#162F63]
-                          shadow-[0_8px_20px_rgba(255,229,0,0.18)]
-                          transition
-                          hover:-translate-y-0.5
-                          hover:bg-[#ffea33]
-                          disabled:cursor-not-allowed
-                          disabled:opacity-60
-                          active:translate-y-0
-                        "
-                      >
-                        <span>{isSubmitting ? 'Enviando...' : 'Enviar'}</span>
-
-                        <span className="text-2xl font-light">
-                          →
-                        </span>
-                      </button>
-                    </div>
+                    <button
+                      type="submit"
+                      disabled={isSubmitting || !isFormValid()}
+                      className="hero-submit"
+                    >
+                      <span>{isSubmitting ? 'Enviando...' : 'Enviar'}</span>
+                      <span className="hero-submit-arrow">→</span>
+                    </button>
 
                     {submitMessage && (
-                      <p className="mt-4 text-sm font-medium text-[#21458A]">{submitMessage}</p>
+                      <p className="hero-message">{submitMessage}</p>
                     )}
                   </form>
                 </div>
