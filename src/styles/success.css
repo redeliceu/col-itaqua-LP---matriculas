@@ -7,7 +7,7 @@
   position: relative;
   overflow: hidden;
   min-height: 80vh;
-  padding: 42px 40px 0;
+  padding: 42px 40px clamp(56px, 9vh, 112px);
   background: linear-gradient(70deg, #0b50b4 0%, #0d59c8 100%);
   background-image: url('../assets/images/bg.png');
   background-size: cover;
@@ -286,7 +286,7 @@
 
 @media (max-width: 640px) {
   .success-hero {
-    padding: 28px 18px 0;
+    padding: 28px 18px clamp(48px, 8vh, 80px);
   }
 
   .success-copy h1 {
