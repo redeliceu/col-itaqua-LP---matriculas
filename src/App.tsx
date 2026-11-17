@@ -3,6 +3,7 @@ import './styles/landing.css'
 import './styles/success.css'
 import Footer from './components/Footer'
 import SuccessScreen from './components/SuccessScreen'
+import { trackLead } from './lib/tracking'
 import Logo from './assets/logo.png'
 import SchoolImage from './assets/images/fachada.jpg'
 import { IoLogoWhatsapp } from "react-icons/io"
@@ -202,6 +203,8 @@ function App() {
         whatsapp: '',
         interestSeries: '',
       })
+      // Conversão (Meta Lead + lead_matricula) só depois do envio confirmado pela API
+      trackLead(payload.interest)
       window.history.pushState({}, '', '/sucesso')
       setCurrentPath('/sucesso')
     } catch (error) {
